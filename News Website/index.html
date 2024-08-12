@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Hub</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="main-nav container flex">
+            <a href="#" onclick="reload()" class="logo">
+                <img src="large.png" alt="logo">
+            </a>
+            <div class="nav-links">
+                <ul class="flex">
+                    <li class="newslink" id="sport" onclick="onNavItemClick('sport')">Sports</li>
+                    <li class="newslink" id="finance" onclick="onNavItemClick('finance')">Finance</li>
+                    <li class="newslink" id="politics" onclick="onNavItemClick('politics')">Politics</li>
+                </ul>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="search-text" class="newsinp" placeholder="e.g Virat Kolhi">
+                <button class="searchbtn" id="searchbtn">Search</button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="cards-container container flex" id="cards-container">
+            
+        </div>
+    </main>
+    <template id="template-news">
+        <div class="card">
+            <div class="card-header">
+                <img src="https://via.placeholder.com/400x200" alt="news-img" id="newsimg">
+            </div>
+            <div class="card-content">
+                <h3 id="news-title">This is the titel</h3>
+                <h6 class="news-source" id="news-source">End Gadget 12/08/2024</h6>
+                <p class="newsdesc" id="newsdesc"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aspernatur corporis odio dolorem ducimus quo cumque beatae, nostrum a ipsum velit.</p>
+            </div>
+        </div>
+    </template>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>
