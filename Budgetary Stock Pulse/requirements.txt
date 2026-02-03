@@ -1,5 +1,0 @@
-streamlit
-yfinance
-google-generativeai
-feedparser
-python-dotenv
