@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Content Analyzer</title>
+    <!-- Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Using a clean, modern font */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom styles for the file input button */
+        .file-input-button::before {
+            content: 'Select File';
+            display: inline-block;
+            background: #4f46e5; /* Indigo color */
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.2s ease-in-out;
+        }
+        .file-input-button:hover::before {
+            background: #4338ca; /* Darker Indigo */
+        }
+        .file-input-button input[type="file"] {
+            display: none;
+        }
+        /* Simple spinner animation */
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border-left-color: #4f46e5;
+            animation: spin 1s ease infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white w-full max-w-2xl mx-auto p-8 md:p-10 rounded-2xl shadow-lg">
+
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Secure Content Analyzer</h1>
+            <p class="text-gray-500 mt-2">Check files and URLs for potential threats.</p>
+        </div>
+
+        <!-- File Analysis Section -->
+        <div class="mb-10">
+            <h2 class="text-xl font-semibold text-gray-700 border-b pb-3 mb-6 flex items-center">
+                <i class="fas fa-file-shield text-indigo-500 mr-3"></i>
+                Document Scanner
+            </h2>
+            <form id="fileForm" action="/scam/" method="post" enctype="multipart/form-data" class="space-y-4">
+                <div>
+                    <label for="file" class="block text-sm font-medium text-gray-600 mb-2">Upload a file (PDF/TXT only):</label>
+                    <div class="flex items-center space-x-4">
+                        <label class="file-input-button">
+                            <input type="file" name="file" id="file" required accept=".pdf,.txt" onchange="document.getElementById('file-name').textContent = this.files[0].name">
+                        </label>
+                        <span id="file-name" class="text-sm text-gray-500">No file chosen</span>
+                    </div>
+                </div>
+                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-indigo-700 transition-colors duration-300 flex items-center justify-center space-x-2">
+                    <i class="fas fa-search"></i>
+                    <span>Analyze Document</span>
+                </button>
+                <div class="flex justify-center">
+                    <div id="fileSpinner" class="spinner hidden"></div>
+                </div>
+            </form>
+            <!-- File result display -->
+            {% if message %}
+                <div class="mt-6 p-4 rounded-lg bg-blue-50 border border-blue-200 text-blue-800">
+                    <h3 class="font-bold mb-2">Analysis Result:</h3>
+                    <p class="text-sm">{{ message | safe }}</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- URL Threat Detection Section -->
+        <div>
+            <h2 class="text-xl font-semibold text-gray-700 border-b pb-3 mb-6 flex items-center">
+                <i class="fas fa-link-slash text-red-500 mr-3"></i>
+                URL Threat Detection
+            </h2>
+            <form id="urlForm" method="post" action="/predict" class="space-y-4">
+                <div>
+                    <label for="url" class="block text-sm font-medium text-gray-600 mb-2">Enter URL to classify:</label>
+                    <input type="text" id="url" name="url" required placeholder="https://example.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-shadow">
+                </div>
+                <button type="submit" class="w-full bg-red-600 text-white font-semibold py-3 px-4 rounded-lg hover:bg-red-700 transition-colors duration-300 flex items-center justify-center space-x-2">
+                    <i class="fas fa-bolt"></i>
+                    <span>Classify URL</span>
+                </button>
+                <div class="flex justify-center">
+                    <div id="urlSpinner" class="spinner hidden"></div>
+                </div>
+            </form>
+             <!-- URL result display -->
+            {% if predicted_class %}
+                <div class="mt-6 p-4 rounded-lg
+                    {% if predicted_class.lower() == 'benign' %} bg-green-50 border-green-200 text-green-800
+                    {% elif predicted_class.lower() == 'phishing' %} bg-yellow-50 border-yellow-200 text-yellow-800
+                    {% else %} bg-red-50 border-red-200 text-red-800 {% endif %}">
+                    <p class="text-sm"><strong class="font-semibold">URL:</strong> {{ input_url }}</p>
+                    <p class="text-sm"><strong class="font-semibold">Classification:</strong> <span class="font-bold">{{ predicted_class }}</span></p>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+    <script>
+        // JavaScript to show a spinner on form submission
+        function showSpinner(formId, spinnerId) {
+            const form = document.getElementById(formId);
+            const spinner = document.getElementById(spinnerId);
+            const button = form.querySelector('button[type="submit"]');
+
+            // Hide the button and show the spinner
+            button.classList.add('hidden');
+            spinner.classList.remove('hidden');
+
+            // To prevent the form from being stuck in a loading state if the user
+            // navigates back, we reset it. This is a simple approach.
+            window.addEventListener('pageshow', function(event) {
+                if (event.persisted) {
+                    button.classList.remove('hidden');
+                    spinner.classList.add('hidden');
+                }
+            });
+
+            return true; // allow form submission
+        }
+
+        // Attach the spinner function to both forms
+        document.getElementById('fileForm').addEventListener('submit', function() {
+            showSpinner('fileForm', 'fileSpinner');
+        });
+        document.getElementById('urlForm').addEventListener('submit', function() {
+            showSpinner('urlForm', 'urlSpinner');
+        });
+    </script>
+
+</body>
+</html>
