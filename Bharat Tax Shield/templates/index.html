@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bharat Tax Shield | Smart Tax Harvesting</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary-green: #10b981; --dark-bg: #0f172a; }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; overflow-x: hidden; }
+        
+        /* Glassmorphism Hero */
+        .hero-section {
+            background: radial-gradient(circle at top right, #e0f2fe, #f8fafc);
+            padding: 100px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+        }
+        
+        /* Feature Icons */
+        .feature-box { padding: 20px; border-radius: 16px; background: white; transition: 0.3s; height: 100%; }
+        .feature-box:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .icon-circle { width: 50px; height: 50px; background: #ecfdf5; color: var(--primary-green); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 15px; }
+        
+        .btn-harvest { background: var(--dark-bg); color: white; padding: 12px 30px; border-radius: 12px; font-weight: 600; border: none; }
+        .btn-harvest:hover { background: #000; color: #fff; }
+    </style>
+</head>
+<body>
+
+    <div class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0 text-center text-lg-start">
+                    <span class="badge rounded-pill bg-success bg-opacity-10 text-success px-3 py-2 mb-3">v2.0 AI Powered</span>
+                    <h1 class="display-4 fw-800 mb-3">Preserve Your Wealth with <span class="text-success">Bharat Tax Shield</span></h1>
+                    <p class="lead text-secondary mb-4">An intelligent algorithm that scans your portfolio to legally offset capital gains tax. Save thousands in seconds.</p>
+                    <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+                        <a href="#upload" class="btn btn-harvest shadow-lg">Start Analysis</a>
+                        <a href="#how-it-works" class="btn btn-outline-secondary px-4 py-2 border-0">Learn More</a>
+                    </div>
+                </div>
+                <div class="col-lg-5 offset-lg-1" id="upload">
+                    <div class="glass-card">
+                        <h4 class="fw-bold mb-4 text-center">Upload Portfolio</h4>
+                        <form action="/analyze" method="post" enctype="multipart/form-data">
+                            <div class="mb-4 text-start">
+                                <label class="small fw-bold text-muted mb-2">SELECT CSV FILE (Zerodha/Groww style)</label>
+                                <input type="file" name="file" class="form-control form-control-lg border-dashed" required>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100 py-3 rounded-3 fw-bold">Generate Strategy →</button>
+                        </form>
+                        <p class="small text-muted mt-3 text-center">🔒 Your data stays private. We do not store your trade history.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-5 mt-5" id="how-it-works">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold">Why use Bharat Tax Shield?</h2>
+            <p class="text-secondary">Automated intelligence for the modern Indian investor.</p>
+        </div>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-box border">
+                    <div class="icon-circle">📊</div>
+                    <h5 class="fw-bold">Smart Offsetting</h5>
+                    <p class="text-muted small">Automatically identifies STCG (20%) and LTCG (12.5%) losses to reduce your total taxable income.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box border">
+                    <div class="icon-circle">🤖</div>
+                    <h5 class="fw-bold">AI Guided Strategy</h5>
+                    <p class="text-muted small">Powered by Gemini 2.0 to give you a natural language plan on how and when to book your losses.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-box border">
+                    <div class="icon-circle">⌛</div>
+                    <h5 class="fw-bold">8-Year Advantage</h5>
+                    <p class="text-muted small">Understand your carry-forward potential. Losses realized today can shield profits for nearly a decade.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="text-center py-5 text-muted small">
+        Developed by Siddhant Bisen | Final Year IT Student, Pune
+    </footer>
+
+</body>
+</html>

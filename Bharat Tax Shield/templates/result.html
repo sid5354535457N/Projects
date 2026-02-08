@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Strategy | Bharat Tax Shield</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f1f5f9; font-family: 'Inter', sans-serif; color: #0f172a; padding: 40px 0; }
+        .savings-hero { 
+            background: #0f172a; 
+            color: #10b981; 
+            border-radius: 24px; 
+            padding: 60px 20px; 
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-out;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        .metric-card { background: white; border-radius: 20px; padding: 25px; border: none; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
+        .ai-insight-panel { background: #f0fdf4; border-left: 6px solid #10b981; border-radius: 16px; padding: 30px; }
+        .table { --bs-table-bg: transparent; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="fw-bold mb-0">Analysis Report</h4>
+            <a href="/" class="btn btn-outline-dark rounded-pill px-4">New Analysis</a>
+        </div>
+
+        <div class="savings-hero text-center shadow-lg">
+            <p class="text-uppercase small fw-bold tracking-wider mb-2" style="letter-spacing: 2px;">Estimated Total Savings</p>
+            <h1 class="display-2 fw-800">₹{{ tax_saved }}</h1>
+            <p class="text-secondary opacity-75 mb-0">Total Capital Gains Tax Shield Identified</p>
+        </div>
+
+        <div class="row g-4 mb-5">
+            <div class="col-md-6">
+                <div class="metric-card">
+                    <span class="text-muted small fw-bold">STCG LOSS (20% SAVING)</span>
+                    <h2 class="text-danger fw-bold mt-2">₹{{ stcg }}</h2>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="metric-card">
+                    <span class="text-muted small fw-bold">LTCG LOSS (12.5% SAVING)</span>
+                    <h2 class="text-warning fw-bold mt-2">₹{{ ltcg }}</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-7">
+                <div class="metric-card h-100">
+                    <h5 class="fw-bold mb-4">Portfolio Action Plan</h5>
+                    <table class="table align-middle">
+                        <thead class="text-muted small">
+                            <tr><th>SCRIP</th><th>CATEGORY</th><th>HARVESTABLE LOSS</th></tr>
+                        </thead>
+                        <tbody>
+                            {% for stock in stocks %}
+                            <tr>
+                                <td class="fw-bold">{{ stock.symbol }}</td>
+                                <td><span class="badge {{ 'bg-info' if stock.type == 'STCG' else 'bg-secondary' }}">{{ stock.type }}</span></td>
+                                <td class="text-danger fw-bold">- ₹{{ stock.pnl }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-lg-5">
+                <div class="ai-insight-panel shadow-sm">
+                    <h5 class="fw-bold mb-3 d-flex align-items-center">
+                        <span class="me-2">🤖</span> AI Strategy Insight
+                    </h5>
+                    <div style="line-height: 1.7; font-size: 0.95rem; white-space: pre-wrap;">
+                        {{ summary }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
